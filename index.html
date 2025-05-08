@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -96,75 +95,72 @@
         <h1 contenteditable="true">Your Name</h1>
         <p contenteditable="true">Your Title (e.g., Student | Developer)</p>
       </div>
-    </div>
+    </div><div class="section">
+  <h2>About Me</h2>
+  <p contenteditable="true" class="editable">Brief description about yourself.</p>
+</div>
 
-    <div class="section">
-      <h2>About Me</h2>
-      <p contenteditable="true" class="editable">Brief description about yourself.</p>
-    </div>
+<div class="section">
+  <h2>Education</h2>
+  <p contenteditable="true" class="editable">B.Sc. Computer Science – Loganathan Narayanasamy Government Arts and Science College (2023–2026)</p>
+</div>
 
-    <div class="section">
-      <h2>Education</h2>
-      <p contenteditable="true" class="editable">B.Sc. Computer Science – Loganathan Narayanasamy Government Arts and Science College (2023–2026)</p>
-    </div>
+<div class="section">
+  <h2>Skills</h2>
+  <ul contenteditable="true" class="editable">
+    <li>HTML, CSS, JavaScript</li>
+    <li>Python, Data Science</li>
+    <li>Communication, Teamwork</li>
+  </ul>
+</div>
 
-    <div class="section">
-      <h2>Skills</h2>
-      <ul contenteditable="true" class="editable">
-        <li>HTML, CSS, JavaScript</li>
-        <li>Python, Data Science</li>
-        <li>Communication, Teamwork</li>
-      </ul>
-    </div>
-
-    <div class="section" id="projects">
-      <h2>Projects</h2>
-      <div class="editable">
-        <p contenteditable="true"><strong>Project Name:</strong> My First Project</p>
-        <p><strong>Link:</strong> <span contenteditable="true" oninput="updateProjectLink(this, 'project1')">https://yourprojectlink.com</span></p>
-        <a id="project1" href="https://yourprojectlink.com" target="_blank">Open Project</a>
-      </div>
-      <button class="btn" onclick="addProject()">Add Project</button>
-    </div>
-
-    <div class="section" id="courses">
-      <h2>Courses & Certificates</h2>
-      <div class="editable">
-        <p contenteditable="true"><strong>Course:</strong> Data Science Basics</p>
-        <p><strong>Certificate:</strong> <span id="certLabel">Upload to view</span></p>
-        <input type="file" id="certificateUpload" class="upload-btn" onchange="uploadCertificate(event)">
-      </div>
-      <button class="btn" onclick="addCourse()">Add Course</button>
-    </div>
-
-    <div class="section">
-      <h2>Languages</h2>
-      <ul contenteditable="true" class="editable">
-        <li>Tamil</li>
-        <li>English</li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <h2>Contact</h2>
-      <p><strong>Phone:</strong> <a href="#" id="phoneLink" contenteditable="true" onblur="updateLink(this, 'tel')">+91 12345 67890</a></p>
-      <p><strong>Email:</strong> <a href="#" id="emailLink" contenteditable="true" onblur="updateLink(this, 'mailto')">your@email.com</a></p>
-      <p><strong>GitHub:</strong> <a href="#" id="githubLink" contenteditable="true" onblur="updateLink(this)">https://github.com/yourusername</a></p>
-      <p><strong>LinkedIn:</strong> <a href="#" id="linkedinLink" contenteditable="true" onblur="updateLink(this)">https://linkedin.com/in/yourprofile</a></p>
-    </div>
-
-    <button class="btn" onclick="window.print()">Download as PDF</button>
+<div class="section" id="projects">
+  <h2>Projects</h2>
+  <div class="editable">
+    <p contenteditable="true"><strong>Project Name:</strong> My First Project</p>
+    <p><strong>Link:</strong> <span contenteditable="true" oninput="updateProjectLink(this)">https://yourprojectlink.com</span></p>
+    <a id="projectLink" href="https://yourprojectlink.com" target="_blank">Open Project</a>
   </div>
+  <button class="btn" onclick="addProject()">Add Project</button>
+</div>
 
-  <script>
+<div class="section" id="courses">
+  <h2>Courses & Certificates</h2>
+  <div class="editable">
+    <p contenteditable="true"><strong>Course:</strong> Data Science Basics</p>
+    <p><strong>Certificate:</strong> <span id="certLabel">Upload to view</span></p>
+    <input type="file" id="certificateUpload" class="upload-btn" onchange="uploadCertificate(event)">
+  </div>
+  <button class="btn" onclick="addCourse()">Add Course</button>
+</div>
+
+<div class="section">
+  <h2>Languages</h2>
+  <ul contenteditable="true" class="editable">
+    <li>Tamil</li>
+    <li>English</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h2>Contact</h2>
+  <p><strong>Phone:</strong> <a href="#" id="phoneLink" contenteditable="true" onblur="updateLink(this, 'tel')">+91 12345 67890</a></p>
+  <p><strong>Email:</strong> <a href="#" id="emailLink" contenteditable="true" onblur="updateLink(this, 'mailto')">your@email.com</a></p>
+  <p><strong>GitHub:</strong> <a href="#" id="githubLink" contenteditable="true" onblur="updateLink(this)">https://github.com/yourusername</a></p>
+  <p><strong>LinkedIn:</strong> <a href="#" id="linkedinLink" contenteditable="true" onblur="updateLink(this)">https://linkedin.com/in/yourprofile</a></p>
+</div>
+
+<button class="btn" onclick="window.print()">Download as PDF</button>
+
+  </div>  <script>
     function loadPhoto(event) {
       const image = document.getElementById('profile-pic');
       image.src = URL.createObjectURL(event.target.files[0]);
     }
 
-    function updateProjectLink(element, id) {
+    function updateProjectLink(element) {
       const link = element.innerText.trim();
-      document.getElementById(id).href = link;
+      document.getElementById('projectLink').href = link;
     }
 
     function uploadCertificate(event) {
@@ -181,7 +177,7 @@
       newProject.innerHTML = `
         <div class="editable">
           <p contenteditable="true"><strong>Project Name:</strong> New Project</p>
-          <p><strong>Link:</strong> <span contenteditable="true" oninput="updateProjectLink(this, '${uniqueId}')">https://yourprojectlink.com</span></p>
+          <p><strong>Link:</strong> <span contenteditable="true" oninput="document.getElementById('${uniqueId}').href=this.innerText">https://yourprojectlink.com</span></p>
           <a id="${uniqueId}" href="https://yourprojectlink.com" target="_blank">Open Project</a>
         </div>
       `;
@@ -208,6 +204,5 @@
       else if (type === 'mailto') url = 'mailto:' + url;
       element.setAttribute('href', url);
     }
-  </script>
-</body>
+  </script></body>
 </html>
