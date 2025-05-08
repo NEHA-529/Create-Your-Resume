@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Professional Resume</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -26,6 +25,7 @@
     .header {
       display: flex;
       align-items: center;
+      justify-content: space-between;
     }
     .header img {
       width: 120px;
@@ -131,9 +131,8 @@
       <h2>Courses & Certificates</h2>
       <div class="editable">
         <p contenteditable="true"><strong>Course:</strong> Data Science Basics</p>
-        <p><strong>Certificate:</strong></p>
-        <div id="certLabel"></div>
-        <input type="file" id="certificateUpload" class="upload-btn" accept="image/*,application/pdf" onchange="uploadCertificate(event)">
+        <p><strong>Certificate:</strong> <span id="certLabel">Upload to view</span></p>
+        <input type="file" id="certificateUpload" class="upload-btn" onchange="uploadCertificate(event)">
       </div>
       <button class="btn" onclick="addCourse()">Add Course</button>
     </div>
@@ -154,7 +153,7 @@
       <p><strong>LinkedIn:</strong> <a href="#" id="linkedinLink" contenteditable="true" onblur="updateLink(this)">https://linkedin.com/in/yourprofile</a></p>
     </div>
 
-    <button class="btn" onclick="downloadResume()">Download Resume as PDF</button>
+    <button class="btn" onclick="window.print()">Download as PDF</button>
   </div>
 
   <script>
@@ -170,32 +169,20 @@
 
     function uploadCertificate(event) {
       const file = event.target.files[0];
+      const url = URL.createObjectURL(file);
       const certLabel = document.getElementById('certLabel');
-
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const base64 = e.target.result;
-        if (file.type.startsWith('image/')) {
-          certLabel.innerHTML = `<img src="${base64}" style="max-width:100%;margin-top:10px;border:1px solid #ccc;" alt="Certificate">`;
-        } else if (file.type === "application/pdf") {
-          certLabel.innerHTML = `<iframe src="${base64}" style="width:100%;height:400px;border:1px solid #ccc;"></iframe>`;
-        } else {
-          certLabel.innerHTML = "Unsupported file type.";
-        }
-      };
-      reader.readAsDataURL(file);
+      certLabel.innerHTML = `<a href="${url}" target="_blank">View Certificate</a>`;
     }
 
     function addProject() {
       const projects = document.getElementById('projects');
       const newProject = document.createElement('div');
+      const uniqueId = 'proj' + Date.now();
       newProject.innerHTML = `
         <div class="editable">
           <p contenteditable="true"><strong>Project Name:</strong> New Project</p>
-          <p><strong>Link:</strong> <span contenteditable="true" oninput="document.getElementById('newProjectLink').href=this.innerText">https://yourprojectlink.com</span></p>
-          <a id="newProjectLink" href="https://yourprojectlink.com" target="_blank">Open Project</a>
+          <p><strong>Link:</strong> <span contenteditable="true" oninput="document.getElementById('${uniqueId}').href=this.innerText">https://yourprojectlink.com</span></p>
+          <a id="${uniqueId}" href="https://yourprojectlink.com" target="_blank">Open Project</a>
         </div>
       `;
       projects.appendChild(newProject);
@@ -203,13 +190,13 @@
 
     function addCourse() {
       const courses = document.getElementById('courses');
+      const uniqueId = 'cert' + Date.now();
       const newCourse = document.createElement('div');
       newCourse.innerHTML = `
         <div class="editable">
           <p contenteditable="true"><strong>Course:</strong> New Course</p>
-          <p><strong>Certificate:</strong></p>
-          <div id="newCertLabel"></div>
-          <input type="file" class="upload-btn" accept="image/*,application/pdf" onchange="uploadCertificate(event)">
+          <p><strong>Certificate:</strong> <span id="${uniqueId}Label">Upload to view</span></p>
+          <input type="file" class="upload-btn" onchange="const file=event.target.files[0];if(file){const url=URL.createObjectURL(file);document.getElementById('${uniqueId}Label').innerHTML='<a href=\\"'+url+'\\" target=\\"_blank\\">View Certificate</a>';}" />
         </div>
       `;
       courses.appendChild(newCourse);
@@ -220,28 +207,6 @@
       if (type === 'tel') url = 'tel:' + url.replace(/\s+/g, '');
       else if (type === 'mailto') url = 'mailto:' + url;
       element.setAttribute('href', url);
-    }
-
-    function downloadResume() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      
-      doc.setFontSize(20);
-      doc.text("Professional Resume", 14, 20);
-
-      doc.setFontSize(12);
-      doc.text("Name: Your Name", 14, 30);
-      doc.text("Title: Your Title", 14, 40);
-      doc.text("Education: B.Sc. Computer Science – Loganathan Narayanasamy College", 14, 50);
-      
-      // If there is a certificate (image or PDF), embed it into the PDF
-      const certificate = document.getElementById('certLabel').querySelector('img');
-      if (certificate) {
-        doc.addImage(certificate.src, 'PNG', 14, 70, 180, 90); // Add the certificate image
-      }
-
-      // Save the PDF
-      doc.save("resume.pdf");
     }
   </script>
 </body>
