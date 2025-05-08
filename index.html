@@ -1,214 +1,213 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
-  <title>Professional Resume</title>  
-  <style>  
-    * {  
-      box-sizing: border-box;  
-    }  
-    body {  
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
-      margin: 0;  
-      padding: 0;  
-      background: #f9f9f9;  
-      color: #333;  
-    }  
-    .container {  
-      max-width: 900px;  
-      margin: 40px auto;  
-      background: #fff;  
-      padding: 40px;  
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);  
-    }  
-    .header {  
-      display: flex;  
-      align-items: center;  
-      justify-content: space-between;  
-    }  
-    .header img {  
-      width: 120px;  
-      height: 120px;  
-      border-radius: 50%;  
-      object-fit: cover;  
-      border: 2px solid #ccc;  
-    }  
-    .header .info {  
-      flex: 1;  
-      margin-left: 20px;  
-    }  
-    h1 {  
-      margin: 0;  
-      font-size: 32px;  
-    }  
-    h2 {  
-      border-bottom: 2px solid #eee;  
-      padding-bottom: 5px;  
-      margin-top: 30px;  
-    }  
-    ul {  
-      padding-left: 20px;  
-    }  
-    .section {  
-      margin-bottom: 20px;  
-    }  
-    .editable {  
-      background-color: #f0f8ff;  
-      padding: 5px;  
-      border-radius: 5px;  
-    }  
-    a {  
-      color: #007BFF;  
-      text-decoration: none;  
-    }  
-    .btn {  
-      background: #007BFF;  
-      color: white;  
-      padding: 10px 15px;  
-      border: none;  
-      border-radius: 5px;  
-      margin-top: 10px;  
-      cursor: pointer;  
-    }  
-    .upload-btn {  
-      margin-top: 5px;  
-    }  
-    input[type="file"] {  
-      margin-top: 5px;  
-    }  
-    @media print {  
-      .btn, .upload-photo-btn, .upload-btn, input[type="file"] {  
-        display: none;  
-      }  
-      [contenteditable] {  
-        border: none;  
-      }  
-    }  
-  </style>  
-</head>  
-<body>  
-  <div class="container">  
-    <div class="header">  
-      <img src="" id="profile-pic" alt="Profile Photo">  
-      <input type="file" accept="image/*" class="upload-photo-btn" onchange="loadPhoto(event)">  
-      <div class="info">  
-        <h1 contenteditable="true">Your Name</h1>  
-        <p contenteditable="true">Your Title (e.g., Student | Developer)</p>  
-      </div>  
-    </div>  
-  
-    <div class="section">  
-      <h2>About Me</h2>  
-      <p contenteditable="true" class="editable">Brief description about yourself.</p>  
-    </div>  
-  
-    <div class="section">  
-      <h2>Education</h2>  
-      <p contenteditable="true" class="editable">B.Sc. Computer Science – Loganathan Narayanasamy Government Arts and Science College (2023–2026)</p>  
-    </div>  
-  
-    <div class="section">  
-      <h2>Skills</h2>  
-      <ul contenteditable="true" class="editable">  
-        <li>HTML, CSS, JavaScript</li>  
-        <li>Python, Data Science</li>  
-        <li>Communication, Teamwork</li>  
-      </ul>  
-    </div>  
-  
-    <div class="section" id="projects">  
-      <h2>Projects</h2>  
-      <div class="editable">  
-        <p contenteditable="true"><strong>Project Name:</strong> My First Project</p>  
-        <p><strong>Link:</strong> <span contenteditable="true" oninput="updateProjectLink(this)">https://yourprojectlink.com</span></p>  
-        <a id="projectLink" href="https://yourprojectlink.com" target="_blank">Open Project</a>  
-      </div>  
-      <button class="btn" onclick="addProject()">Add Project</button>  
-    </div>  
-  
-    <div class="section" id="courses">  
-      <h2>Courses & Certificates</h2>  
-      <div class="editable">  
-        <p contenteditable="true"><strong>Course:</strong> Data Science Basics</p>  
-        <p><strong>Certificate:</strong> <span id="certLabel">Upload to view</span></p>  
-        <input type="file" id="certificateUpload" class="upload-btn" onchange="uploadCertificate(event)">  
-      </div>  
-      <button class="btn" onclick="addCourse()">Add Course</button>  
-    </div>  
-  
-    <div class="section">  
-      <h2>Languages</h2>  
-      <ul contenteditable="true" class="editable">  
-        <li>Tamil</li>  
-        <li>English</li>  
-      </ul>  
-    </div>  
-  
-    <div class="section">  
-      <h2>Contact</h2>  
-      <p><strong>Phone:</strong> <a href="#" id="phoneLink" contenteditable="true" onblur="updateLink(this, 'tel')">+91 12345 67890</a></p>  
-      <p><strong>Email:</strong> <a href="#" id="emailLink" contenteditable="true" onblur="updateLink(this, 'mailto')">your@email.com</a></p>  
-      <p><strong>GitHub:</strong> <a href="#" id="githubLink" contenteditable="true" onblur="updateLink(this)">https://github.com/yourusername</a></p>  
-      <p><strong>LinkedIn:</strong> <a href="#" id="linkedinLink" contenteditable="true" onblur="updateLink(this)">https://linkedin.com/in/yourprofile</a></p>  
-    </div>  
-  
-    <button class="btn" onclick="window.print()">Download as PDF</button>  
-  </div>  
-  
-  <script>  
-    function loadPhoto(event) {  
-      const image = document.getElementById('profile-pic');  
-      image.src = URL.createObjectURL(event.target.files[0]);  
-    }  
-  
-    function updateProjectLink(element) {  
-      const link = element.innerText.trim();  
-      document.getElementById('projectLink').href = link;  
-    }  
-  
-    function uploadCertificate(event) {  
-      const file = event.target.files[0];  
-      const url = URL.createObjectURL(file);  
-      const certLabel = document.getElementById('certLabel');  
-      certLabel.innerHTML = `<a href="${url}" target="_blank">View Certificate</a>`;  
-    }  
-  
-    function addProject() {  
-      const projects = document.getElementById('projects');  
-      const newProject = document.createElement('div');  
-      const uniqueId = 'proj' + Date.now();  
-      newProject.innerHTML = `  
-        <div class="editable">  
-          <p contenteditable="true"><strong>Project Name:</strong> New Project</p>  
-          <p><strong>Link:</strong> <span contenteditable="true" oninput="document.getElementById('${uniqueId}').href=this.innerText">https://yourprojectlink.com</span></p>  
-          <a id="${uniqueId}" href="https://yourprojectlink.com" target="_blank">Open Project</a>  
-        </div>  
-      `;  
-      projects.appendChild(newProject);  
-    }  
-  
-    function addCourse() {  
-      const courses = document.getElementById('courses');  
-      const uniqueId = 'cert' + Date.now();  
-      const newCourse = document.createElement('div');  
-      newCourse.innerHTML = `  
-        <div class="editable">  
-          <p contenteditable="true"><strong>Course:</strong> New Course</p>  
-          <p><strong>Certificate:</strong> <span id="${uniqueId}Label">Upload to view</span></p>  
-          <input type="file" class="upload-btn" onchange="let url=URL.createObjectURL(this.files[0]);document.getElementById('${uniqueId}Label').innerHTML='<a href=\"'+url+'\" target=\"_blank\">View Certificate</a>'">  
-        </div>  
-      `;  
-      courses.appendChild(newCourse);  
-    }  
-  
-    function updateLink(element, type) {  
-      let url = element.innerText.trim();  
-      if (type === 'tel') url = 'tel:' + url.replace(/\s+/g, '');  
-      else if (type === 'mailto') url = 'mailto:' + url;  
-      element.setAttribute('href', url);  
-    }  
-  </script>  
-</body>  
-</html>  
-  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professional Resume</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 40px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ccc;
+    }
+    .header .info {
+      flex: 1;
+      margin-left: 20px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+    h2 {
+      border-bottom: 2px solid #eee;
+      padding-bottom: 5px;
+      margin-top: 30px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    .editable {
+      background-color: #f0f8ff;
+      padding: 5px;
+      border-radius: 5px;
+    }
+    a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+    .btn {
+      background: #007BFF;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .upload-btn {
+      margin-top: 5px;
+    }
+    input[type="file"] {
+      margin-top: 5px;
+    }
+    @media print {
+      .btn, .upload-photo-btn, .upload-btn, input[type="file"] {
+        display: none;
+      }
+      [contenteditable] {
+        border: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="" id="profile-pic" alt="Profile Photo">
+      <input type="file" accept="image/*" class="upload-photo-btn" onchange="loadPhoto(event)">
+      <div class="info">
+        <h1 contenteditable="true">Your Name</h1>
+        <p contenteditable="true">Your Title (e.g., Student | Developer)</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>About Me</h2>
+      <p contenteditable="true" class="editable">Brief description about yourself.</p>
+    </div>
+
+    <div class="section">
+      <h2>Education</h2>
+      <p contenteditable="true" class="editable">B.Sc. Computer Science – Loganathan Narayanasamy Government Arts and Science College (2023–2026)</p>
+    </div>
+
+    <div class="section">
+      <h2>Skills</h2>
+      <ul contenteditable="true" class="editable">
+        <li>HTML, CSS, JavaScript</li>
+        <li>Python, Data Science</li>
+        <li>Communication, Teamwork</li>
+      </ul>
+    </div>
+
+    <div class="section" id="projects">
+      <h2>Projects</h2>
+      <div class="editable">
+        <p contenteditable="true"><strong>Project Name:</strong> My First Project</p>
+        <p><strong>Link:</strong> <span contenteditable="true" oninput="updateProjectLink(this, 'project1')">https://yourprojectlink.com</span></p>
+        <a id="project1" href="https://yourprojectlink.com" target="_blank">Open Project</a>
+      </div>
+      <button class="btn" onclick="addProject()">Add Project</button>
+    </div>
+
+    <div class="section" id="courses">
+      <h2>Courses & Certificates</h2>
+      <div class="editable">
+        <p contenteditable="true"><strong>Course:</strong> Data Science Basics</p>
+        <p><strong>Certificate:</strong> <span id="certLabel">Upload to view</span></p>
+        <input type="file" id="certificateUpload" class="upload-btn" onchange="uploadCertificate(event)">
+      </div>
+      <button class="btn" onclick="addCourse()">Add Course</button>
+    </div>
+
+    <div class="section">
+      <h2>Languages</h2>
+      <ul contenteditable="true" class="editable">
+        <li>Tamil</li>
+        <li>English</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Contact</h2>
+      <p><strong>Phone:</strong> <a href="#" id="phoneLink" contenteditable="true" onblur="updateLink(this, 'tel')">+91 12345 67890</a></p>
+      <p><strong>Email:</strong> <a href="#" id="emailLink" contenteditable="true" onblur="updateLink(this, 'mailto')">your@email.com</a></p>
+      <p><strong>GitHub:</strong> <a href="#" id="githubLink" contenteditable="true" onblur="updateLink(this)">https://github.com/yourusername</a></p>
+      <p><strong>LinkedIn:</strong> <a href="#" id="linkedinLink" contenteditable="true" onblur="updateLink(this)">https://linkedin.com/in/yourprofile</a></p>
+    </div>
+
+    <button class="btn" onclick="window.print()">Download as PDF</button>
+  </div>
+
+  <script>
+    function loadPhoto(event) {
+      const image = document.getElementById('profile-pic');
+      image.src = URL.createObjectURL(event.target.files[0]);
+    }
+
+    function updateProjectLink(element, id) {
+      const link = element.innerText.trim();
+      document.getElementById(id).href = link;
+    }
+
+    function uploadCertificate(event) {
+      const file = event.target.files[0];
+      const url = URL.createObjectURL(file);
+      const certLabel = document.getElementById('certLabel');
+      certLabel.innerHTML = `<a href="${url}" target="_blank">View Certificate</a>`;
+    }
+
+    function addProject() {
+      const projects = document.getElementById('projects');
+      const newProject = document.createElement('div');
+      const uniqueId = 'proj' + Date.now();
+      newProject.innerHTML = `
+        <div class="editable">
+          <p contenteditable="true"><strong>Project Name:</strong> New Project</p>
+          <p><strong>Link:</strong> <span contenteditable="true" oninput="updateProjectLink(this, '${uniqueId}')">https://yourprojectlink.com</span></p>
+          <a id="${uniqueId}" href="https://yourprojectlink.com" target="_blank">Open Project</a>
+        </div>
+      `;
+      projects.appendChild(newProject);
+    }
+
+    function addCourse() {
+      const courses = document.getElementById('courses');
+      const uniqueId = 'cert' + Date.now();
+      const newCourse = document.createElement('div');
+      newCourse.innerHTML = `
+        <div class="editable">
+          <p contenteditable="true"><strong>Course:</strong> New Course</p>
+          <p><strong>Certificate:</strong> <span id="${uniqueId}Label">Upload to view</span></p>
+          <input type="file" class="upload-btn" onchange="let url=URL.createObjectURL(this.files[0]);document.getElementById('${uniqueId}Label').innerHTML='<a href=\"'+url+'\" target=\"_blank\">View Certificate</a>'">
+        </div>
+      `;
+      courses.appendChild(newCourse);
+    }
+
+    function updateLink(element, type) {
+      let url = element.innerText.trim();
+      if (type === 'tel') url = 'tel:' + url.replace(/\s+/g, '');
+      else if (type === 'mailto') url = 'mailto:' + url;
+      element.setAttribute('href', url);
+    }
+  </script>
+</body>
+</html>
