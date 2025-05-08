@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Professional Resume</title>
   <style>
     * {
@@ -71,14 +71,11 @@
       margin-top: 10px;
       cursor: pointer;
     }
-    .upload-btn {
-      margin-top: 5px;
-    }
     input[type="file"] {
       margin-top: 5px;
     }
     @media print {
-      .btn, .upload-photo-btn, .upload-btn, input[type="file"] {
+      .btn, .upload-photo-btn, input[type="file"] {
         display: none;
       }
       [contenteditable] {
@@ -121,8 +118,15 @@
       <h2>Projects</h2>
       <div class="editable">
         <p contenteditable="true"><strong>Project Name:</strong> My First Project</p>
-        <p><strong>Link:</strong> <span contenteditable="true" oninput="updateProjectLink(this)">https://yourprojectlink.com</span></p>
-        <a id="projectLink" href="https://yourprojectlink.com" target="_blank">Open Project</a>
+        <p><strong>Link:</strong> 
+          <a href="https://yourprojectlink.com" 
+             contenteditable="true"
+             onclick="event.preventDefault()" 
+             onblur="this.href=this.innerText"
+             target="_blank">
+             https://yourprojectlink.com
+          </a>
+        </p>
       </div>
       <button class="btn" onclick="addProject()">Add Project</button>
     </div>
@@ -131,7 +135,15 @@
       <h2>Courses & Certificates</h2>
       <div class="editable">
         <p contenteditable="true"><strong>Course:</strong> Customer Engagement: Problem Solving and Process Controls</p>
-        <p contenteditable="true"><strong>Certificate:</strong> Certificate details or link here</p>
+        <p><strong>Certificate URL:</strong> 
+          <a href="https://courses.cognitiveclass.ai/certificates/6ca8781e1cc8428b9267d0c0179a78cb"
+             contenteditable="true"
+             onclick="event.preventDefault()" 
+             onblur="this.href=this.innerText"
+             target="_blank">
+             https://courses.cognitiveclass.ai/certificates/6ca8781e1cc8428b9267d0c0179a78cb
+          </a>
+        </p>
       </div>
       <button class="btn" onclick="addCourse()">Add Course</button>
     </div>
@@ -146,10 +158,28 @@
 
     <div class="section">
       <h2>Contact</h2>
-      <p><strong>Phone:</strong> <a href="#" id="phoneLink" contenteditable="true" onblur="updateLink(this, 'tel')">+91 12345 67890</a></p>
-      <p><strong>Email:</strong> <a href="#" id="emailLink" contenteditable="true" onblur="updateLink(this, 'mailto')">your@email.com</a></p>
-      <p><strong>GitHub:</strong> <a href="#" id="githubLink" contenteditable="true" onblur="updateLink(this)">https://github.com/yourusername</a></p>
-      <p><strong>LinkedIn:</strong> <a href="#" id="linkedinLink" contenteditable="true" onblur="updateLink(this)">https://linkedin.com/in/yourprofile</a></p>
+      <p><strong>Phone:</strong> 
+        <a href="tel:+911234567890" 
+           contenteditable="true" 
+           onblur="this.href='tel:'+this.innerText.replace(/\s+/g,'')">+91 12345 67890</a>
+      </p>
+      <p><strong>Email:</strong> 
+        <a href="mailto:your@email.com"
+           contenteditable="true" 
+           onblur="this.href='mailto:'+this.innerText">your@email.com</a>
+      </p>
+      <p><strong>GitHub:</strong> 
+        <a href="https://github.com/yourusername" 
+           contenteditable="true"
+           onblur="this.href=this.innerText"
+           target="_blank">https://github.com/yourusername</a>
+      </p>
+      <p><strong>LinkedIn:</strong> 
+        <a href="https://linkedin.com/in/yourprofile" 
+           contenteditable="true"
+           onblur="this.href=this.innerText"
+           target="_blank">https://linkedin.com/in/yourprofile</a>
+      </p>
     </div>
 
     <button class="btn" onclick="window.print()">Download as PDF</button>
@@ -161,42 +191,40 @@
       image.src = URL.createObjectURL(event.target.files[0]);
     }
 
-    function updateProjectLink(element) {
-      const link = element.innerText.trim();
-      document.getElementById('projectLink').href = link;
-    }
-
     function addProject() {
       const projects = document.getElementById('projects');
-      const newProject = document.createElement('div');
       const uniqueId = 'proj' + Date.now();
+      const newProject = document.createElement('div');
       newProject.innerHTML = `
         <div class="editable">
           <p contenteditable="true"><strong>Project Name:</strong> New Project</p>
-          <p><strong>Link:</strong> <span contenteditable="true" oninput="document.getElementById('${uniqueId}').href=this.innerText">https://yourprojectlink.com</span></p>
-          <a id="${uniqueId}" href="https://yourprojectlink.com" target="_blank">Open Project</a>
-        </div>
-      `;
+          <p><strong>Link:</strong> 
+            <a href="https://yourprojectlink.com" 
+               contenteditable="true" 
+               onclick="event.preventDefault()" 
+               onblur="this.href=this.innerText"
+               target="_blank">https://yourprojectlink.com</a>
+          </p>
+        </div>`;
       projects.appendChild(newProject);
     }
 
     function addCourse() {
       const courses = document.getElementById('courses');
+      const uniqueId = 'cert' + Date.now();
       const newCourse = document.createElement('div');
       newCourse.innerHTML = `
         <div class="editable">
           <p contenteditable="true"><strong>Course:</strong> New Course</p>
-          <p contenteditable="true"><strong>Certificate:</strong> Certificate details or link here</p>
-        </div>
-      `;
+          <p><strong>Certificate URL:</strong> 
+            <a href="https://yourcertificate.com" 
+               contenteditable="true" 
+               onclick="event.preventDefault()" 
+               onblur="this.href=this.innerText"
+               target="_blank">https://yourcertificate.com</a>
+          </p>
+        </div>`;
       courses.appendChild(newCourse);
-    }
-
-    function updateLink(element, type) {
-      let url = element.innerText.trim();
-      if (type === 'tel') url = 'tel:' + url.replace(/\s+/g, '');
-      else if (type === 'mailto') url = 'mailto:' + url;
-      element.setAttribute('href', url);
     }
   </script>
 </body>
